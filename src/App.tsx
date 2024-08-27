@@ -67,7 +67,6 @@ function MsgBox(props: { messages: ChatMessage[] }) {
 // #endregion
 
 // #region [LEADERBOARD]
-// !! TODO, ADD LOGIC TO FIGURE OUT WHEN TO SHOW 4TH PLACE AND NOT MY OWN SCORE, cause it's always 4 total scores
 function LdrBoard(props: { scores: Score[] }) {
   const sortedScores = props.scores.sort((a, b) => b.score - a.score);
   const topThree = sortedScores.slice(0, 3);
