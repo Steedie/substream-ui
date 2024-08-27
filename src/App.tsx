@@ -16,13 +16,31 @@ function Msg(props: { user: string; message: string; color: string }) {
   );
 }
 
-function MsgInput(props: { user: string; message: string; color: string }) {
+function MsgInput(props: {
+  user: string;
+  message: string;
+  color: string;
+  typing?: boolean;
+}) {
+  const containerClass = props.typing
+    ? "chat-message-container chat-message-container-prompt chat-message-container-glow"
+    : "chat-message-container chat-message-container-prompt";
   return (
-    <div className="chat-message-container chat-message-container-prompt">
+    <div className={containerClass}>
       <span className="chat-user" style={{ color: props.color }}>
         {props.user}:
       </span>
-      <span className="chat-message-prompt">{props.message}</span>
+      {props.typing ? (
+        <span className="chat-message-prompt">
+          <input
+            type="text"
+            className="chat-input"
+            placeholder="type here..."
+          />
+        </span>
+      ) : (
+        <span className="chat-message-prompt">{props.message}</span>
+      )}
     </div>
   );
 }
@@ -61,8 +79,9 @@ function MsgBox(props: { messages: ChatMessage[] }) {
       <MsgInput
         key={"chat-prompt"}
         user={"steedie"}
-        message={"--press [X] to chat--"}
-        color={"#4cbd39"}
+        message={"press [t] to type"}
+        color={"#ae5dd9"}
+        typing={false}
       />
     </div>
   );

@@ -5,6 +5,7 @@
     left: 0;
     margin-bottom: 30px;
     margin-left: 30px;
+    cursor: default;
   }
   
   .chat-message-container {
@@ -21,9 +22,12 @@
   
   .chat-message-container-prompt{
     margin-top: 10px;
-    
     border: 1px solid rgb(58, 58, 58);
   }
+  
+  .chat-message-container-glow {
+    box-shadow: 0 0 4px rgba(92, 144, 255, 0.8), 0 0 4px rgba(92, 144, 255, 0.6), 0 0 4px rgba(92, 144, 255, 0.4);
+}
   
   .chat-user {
     font-weight: bold;
@@ -39,6 +43,7 @@
     word-break: break-word;
     white-space: pre-wrap;
     text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.75);
+    cursor:auto;
   }
   
   .chat-message-prompt {
@@ -49,6 +54,19 @@
     white-space: pre-wrap;
     text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.75);
   }
+
+  .chat-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    color: rgb(189, 189, 189);
+    font-size: 14px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-shadow: 0px 2px 0px rgba(0, 0, 0, 0.75);
+}
 
   .older-messages{
     color: rgb(240, 240, 240);

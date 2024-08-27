@@ -25,7 +25,7 @@
 .leaderboard-entry-leader {
     border: 2px solid rgb(92, 144, 255);
     border-radius: 42px;
-    animation: gold-gradient-border 1s infinite;
+    animation: gold-gradient-border 2s infinite;
 }
 
 @keyframes gold-gradient-border {

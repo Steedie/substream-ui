@@ -7,7 +7,7 @@ const colors = [
     "#1a8cd9",
     "#d91a8c",
     "#1ad9b1",
-    "#b11ad9",
+    "#ae5dd9",
     "#d9b11a",
 ]
 
@@ -30,6 +30,11 @@ export const chatTestData1: ChatMessage[] = [
 {
     user: "steedie",
     message: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    color: colors[6]
+},
+{
+    user: "opnpc",
+    message: "Vasa tua destruam",
     color: colors[2]
 },
 ]
@@ -38,7 +43,7 @@ export const scoreTestData1: Score[] = [
 {
     user: "steedie",
     score: 3,
-    color: colors[2],
+    color: colors[6],
     isMe: true
 },
 {
