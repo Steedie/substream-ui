@@ -47,6 +47,7 @@
 }
 
 .leaderboard-user {
+    font-family: "Delius", cursive;
     margin-right: 12px;
     color: rgb(240, 240, 240);
     font-weight: bold;
@@ -54,6 +55,7 @@
 }
 
 .leaderboard-score {
+    font-family: "Roboto Mono", monospace;
     margin-right: 30px;
     color: rgb(145, 145, 145);
 }
@@ -64,6 +66,7 @@
 }
 
 .score-circle {
+    font-family: "Roboto Mono", monospace;
     position: absolute;
     right: 4px;
     top: -1px;

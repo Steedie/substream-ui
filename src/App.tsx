@@ -30,8 +30,11 @@ function MsgInput(props: { user: string; message: string; color: string }) {
 function OlderMessages(props: { olderMessages: number }) {
   return (
     <div className="older-messages">
+      <span className="older-messages-number">
+        {props.olderMessages.toLocaleString()}
+      </span>
       <span>
-        {props.olderMessages.toLocaleString()} older message
+        older message
         {props.olderMessages > 1 ? "s" : ""}
       </span>
     </div>
@@ -57,7 +60,7 @@ function MsgBox(props: { messages: ChatMessage[] }) {
       ))}
       <MsgInput
         key={"chat-prompt"}
-        user={"Steedie"}
+        user={"steedie"}
         message={"--press [X] to chat--"}
         color={"#4cbd39"}
       />
