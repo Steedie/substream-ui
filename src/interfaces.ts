@@ -3,3 +3,10 @@ export interface ChatMessage {
     message: string;
     color: string;
 }
+
+export interface Score {
+    user: string;
+    score: number;
+    color: string;
+    isMe?: boolean;
+}

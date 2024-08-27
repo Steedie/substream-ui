@@ -1,7 +1,11 @@
-import { chatTestData1 } from "./testData";
+import { chatTestData1, scoreTestData1 } from "./testData";
+import { ChatMessage, Score } from "./interfaces";
 import "./App.css";
+import "./Chat.css";
+import "./Leaderboard.css";
 
-function ChatMessage(props: { user: string; message: string; color: string }) {
+// #region [CHAT BOX]
+function Msg(props: { user: string; message: string; color: string }) {
   return (
     <div className="chat-message-container">
       <span className="chat-user" style={{ color: props.color }}>
@@ -12,7 +16,7 @@ function ChatMessage(props: { user: string; message: string; color: string }) {
   );
 }
 
-function ChatPrompt(props: { user: string; message: string; color: string }) {
+function MsgInput(props: { user: string; message: string; color: string }) {
   return (
     <div className="chat-message-container chat-message-container-prompt">
       <span className="chat-user" style={{ color: props.color }}>
@@ -23,18 +27,35 @@ function ChatPrompt(props: { user: string; message: string; color: string }) {
   );
 }
 
-function ChatBox() {
+function OlderMessages(props: { olderMessages: number }) {
+  return (
+    <div className="older-messages">
+      <span>
+        {props.olderMessages.toLocaleString()} older message
+        {props.olderMessages > 1 ? "s" : ""}
+      </span>
+    </div>
+  );
+}
+
+function MsgBox(props: { messages: ChatMessage[] }) {
+  const olderMessages = props.messages.length > 3;
+  const recentMessages = props.messages.slice(-3);
+
   return (
     <div className="chat-box">
-      {chatTestData1.map((message, index) => (
-        <ChatMessage
+      {olderMessages && (
+        <OlderMessages olderMessages={props.messages.length - 3} />
+      )}
+      {recentMessages.map((message, index) => (
+        <Msg
           key={index}
           user={message.user}
           message={message.message}
           color={message.color}
         />
       ))}
-      <ChatPrompt
+      <MsgInput
         key={"chat-prompt"}
         user={"Steedie"}
         message={"--press [X] to chat--"}
@@ -43,11 +64,82 @@ function ChatBox() {
     </div>
   );
 }
+// #endregion
+
+// #region [LEADERBOARD]
+function LdrBoard(props: { scores: Score[] }) {
+  const leaders = props.scores.sort((a, b) => b.score - a.score).slice(0, 3);
+  return (
+    <div className="leaderboard">
+      {leaders.map((leader, index) => (
+        <LdrEntry
+          key={index}
+          user={leader.user}
+          score={leader.score}
+          color={leader.color}
+          position={index + 1}
+        />
+      ))}
+    </div>
+  );
+}
+
+function LdrEntry(props: {
+  user: string;
+  score: number;
+  color: string;
+  position: number;
+}) {
+  const shadowColor = shadeColor(props.color, -40);
+  const entryClass =
+    props.position === 1
+      ? "leaderboard-entry leaderboard-entry-leader"
+      : "leaderboard-entry";
+
+  return (
+    <div className={entryClass}>
+      <span className="leaderboard-user">{props.user}</span>
+      <span className="leaderboard-score">{props.score}</span>
+      <span
+        className="score-circle shadow-circle"
+        style={{ backgroundColor: shadowColor }}
+      />
+      <span className="score-circle" style={{ backgroundColor: props.color }}>
+        {props.position}
+      </span>
+    </div>
+  );
+}
+
+function shadeColor(color: string, percent: number) {
+  let R = parseInt(color.substring(1, 3), 16);
+  let G = parseInt(color.substring(3, 5), 16);
+  let B = parseInt(color.substring(5, 7), 16);
+
+  R = Math.floor((R * (100 + percent)) / 100);
+  G = Math.floor((G * (100 + percent)) / 100);
+  B = Math.floor((B * (100 + percent)) / 100);
+
+  R = R < 255 ? R : 255;
+  G = G < 255 ? G : 255;
+  B = B < 255 ? B : 255;
+
+  const RR =
+    R.toString(16).length === 1 ? "0" + R.toString(16) : R.toString(16);
+  const GG =
+    G.toString(16).length === 1 ? "0" + G.toString(16) : G.toString(16);
+  const BB =
+    B.toString(16).length === 1 ? "0" + B.toString(16) : B.toString(16);
+
+  return "#" + RR + GG + BB;
+}
+// #endregion
 
 function App() {
   return (
     <>
-      <ChatBox />
+      <MsgBox messages={chatTestData1} />
+      <LdrBoard scores={scoreTestData1} />
     </>
   );
 }
