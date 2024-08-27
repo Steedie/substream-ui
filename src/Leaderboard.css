@@ -24,6 +24,26 @@
 
 .leaderboard-entry-leader {
     border: 2px solid rgb(92, 144, 255);
+    border-radius: 42px;
+    animation: gold-gradient-border 1s infinite;
+}
+
+@keyframes gold-gradient-border {
+    0% {
+        border-color: rgb(255, 215, 0);
+    }
+    25% {
+        border-color: rgb(255, 206, 44);
+    }
+    50% {
+        border-color: rgb(255, 230, 0);
+    }
+    75% {
+        border-color: rgb(255, 182, 23);
+    }
+    100% {
+        border-color: rgb(255, 215, 0);
+    }
 }
 
 .leaderboard-user {

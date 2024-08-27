@@ -1,54 +1,70 @@
 import { ChatMessage, Score } from "./interfaces";
 
+const colors = [
+    "#c43a2d",
+    "#d9bf1a",
+    "#4cbd39",
+    "#1a8cd9",
+    "#d91a8c",
+    "#1ad9b1",
+    "#b11ad9",
+    "#d9b11a",
+]
+
 export const chatTestData1: ChatMessage[] = [
 {
     user: "damor",
     message: "this is an older message and can't be seen here",
-    color: "#c43a2d"
+    color: colors[0]
 },
 {
     user: "damor",
     message: "Lorem ipsum dolor sit amet.",
-    color: "#c43a2d"
+    color: colors[0]
 },
 {
-    user: "SpeedyThing",
+    user: "farms",
     message: "consectetur adipiscing elit. Sed do?",
-    color: "#d9bf1a"
+    color: colors[1]
 },
 {
     user: "steedie",
     message: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    color: "#4cbd39"
+    color: colors[2]
 },
 ]
 
 export const scoreTestData1: Score[] = [
 {
     user: "steedie",
-    score: 42,
-    color: "#4cbd39",
+    score: 3,
+    color: colors[2],
     isMe: true
 },
 {
     user: "damor",
-    score: 1,
-    color: "#c43a2d"
+    score: 10,
+    color: colors[0]
 },
 {
-    user: "td00g",
-    score: 8,
-    color: "#d9bf1a"
+    user: "jeff",
+    score: 10,
+    color: colors[3]
+},
+{
+    user: "damor",
+    score: 520,
+    color: colors[0]
 },
 {
     user: "hypnoshock",
-    score: 12,
-    color: "#1a8cd9"
+    score: 1042,
+    color: colors[5]
 },
 {
     user: "farms",
-    score: 4,
-    color: "#d91a8c"
+    score: 22,
+    color: colors[1]
 }
 
 ]

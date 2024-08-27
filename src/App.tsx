@@ -67,8 +67,24 @@ function MsgBox(props: { messages: ChatMessage[] }) {
 // #endregion
 
 // #region [LEADERBOARD]
+// !! TODO, ADD LOGIC TO FIGURE OUT WHEN TO SHOW 4TH PLACE AND NOT MY OWN SCORE, cause it's always 4 total scores
 function LdrBoard(props: { scores: Score[] }) {
-  const leaders = props.scores.sort((a, b) => b.score - a.score).slice(0, 3);
+  const sortedScores = props.scores.sort((a, b) => b.score - a.score);
+  const topThree = sortedScores.slice(0, 3);
+  const isMeInTopThree = topThree.some((score) => score.isMe);
+  let leaders;
+
+  if (isMeInTopThree) {
+    leaders = sortedScores.slice(0, 4);
+  } else {
+    const meScore = sortedScores.find((score) => score.isMe);
+    if (meScore) {
+      leaders = [...topThree, meScore];
+    } else {
+      leaders = topThree;
+    }
+  }
+
   return (
     <div className="leaderboard">
       {leaders.map((leader, index) => (
@@ -77,7 +93,9 @@ function LdrBoard(props: { scores: Score[] }) {
           user={leader.user}
           score={leader.score}
           color={leader.color}
-          position={index + 1}
+          position={
+            sortedScores.findIndex((score) => score.user === leader.user) + 1
+          }
         />
       ))}
     </div>
@@ -90,7 +108,7 @@ function LdrEntry(props: {
   color: string;
   position: number;
 }) {
-  const shadowColor = shadeColor(props.color, -40);
+  const shadowColor = shadeColor(props.color, -25);
   const entryClass =
     props.position === 1
       ? "leaderboard-entry leaderboard-entry-leader"
