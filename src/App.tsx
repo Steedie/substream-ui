@@ -1,8 +1,10 @@
+import { useState, useEffect, useMemo } from "react";
 import { chatTestData1, scoreTestData1 } from "./testData";
 import { ChatMessage, Score } from "./interfaces";
 import "./App.css";
 import "./Chat.css";
 import "./Leaderboard.css";
+import "./Energy.css";
 
 // #region [CHAT BOX]
 function Msg(props: { user: string; message: string; color: string }) {
@@ -174,11 +176,61 @@ function shadeColor(color: string, percent: number) {
 }
 // #endregion
 
+// #region [ENERGY]
+
+function Energy(props: { energy: number }) {
+  const bubbles = useMemo(() => {
+    return Array.from({ length: 10 }).map((_, index) => {
+      const size = Math.random() * 8 + 4;
+      const top = Math.random() * 100;
+      const left = Math.random() * 100;
+      const duration = Math.random() * 3 + 4;
+
+      return (
+        <div
+          key={index}
+          className="energy-bubble"
+          style={{
+            width: `${size}px`,
+            height: `${size}px`,
+            top: `${top}%`,
+            left: `${left}%`,
+            animationDuration: `${duration}s`,
+          }}
+        ></div>
+      );
+    });
+  }, []);
+
+  return (
+    <div className="energy-bar">
+      <div className="energy-fill" style={{ width: `${props.energy}%` }}>
+        <div className="energy-reflection"></div>
+        {bubbles}
+      </div>
+    </div>
+  );
+}
+
+// #endregion
+
 function App() {
+  const [energyLevel, setEnergyLevel] = useState(100);
+
+  // RANDOM ENERGY LEVEL
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setEnergyLevel(Math.random() * 100);
+    }, 2500);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <>
       <MsgBox messages={chatTestData1} />
       <LdrBoard scores={scoreTestData1} />
+      <Energy energy={energyLevel} />
     </>
   );
 }
