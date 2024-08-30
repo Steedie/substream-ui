@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { chatTestData1, scoreTestData1 } from "./testData";
+import { scoreTestData2, generateRandomChatMessage } from "./testData";
 import { ChatMessage, Score } from "./interfaces";
 import "./App.css";
 import "./Chat.css";
@@ -7,9 +7,16 @@ import "./Leaderboard.css";
 import "./Energy.css";
 
 // #region [CHAT BOX]
-function Msg(props: { user: string; message: string; color: string }) {
+function Msg(props: {
+  user: string;
+  message: string;
+  color: string;
+  classNames?: string;
+}) {
+  const msgClass =
+    "chat-message-container" + (props.classNames ? " " + props.classNames : "");
   return (
-    <div className="chat-message-container">
+    <div className={msgClass}>
       <span className="chat-user" style={{ color: props.color }}>
         {props.user}:
       </span>
@@ -62,32 +69,47 @@ function OlderMessages(props: { olderMessages: number }) {
 }
 
 function MsgBox(props: { messages: ChatMessage[] }) {
-  const olderMessages = props.messages.length > 3;
-  const recentMessages = props.messages.slice(-3);
+  const showMsgCount = 10;
+  const olderMessages = props.messages.length >= showMsgCount;
+  const recentMessages = props.messages.slice(-showMsgCount).reverse();
 
   return (
     <div className="chat-box">
-      {olderMessages && (
-        <OlderMessages olderMessages={props.messages.length - 3} />
-      )}
-      {recentMessages.map((message, index) => (
-        <Msg
-          key={index}
-          user={message.user}
-          message={message.message}
-          color={message.color}
-        />
-      ))}
+      <div className="chat-inner-box">
+        {recentMessages.map((message, index) => (
+          <Msg
+            key={index + "-" + props.messages.length}
+            user={message.user}
+            message={message.message}
+            color={message.color}
+            classNames={
+              index === 0
+                ? "fade-slide-in"
+                : index === recentMessages.length - 1 &&
+                  index + 1 === showMsgCount
+                ? "slide-out"
+                : "slide-in"
+            }
+          />
+        ))}
+        {olderMessages && (
+          <OlderMessages
+            olderMessages={props.messages.length - (showMsgCount - 1)}
+          />
+        )}
+      </div>
+
       <MsgInput
         key={"chat-prompt"}
         user={"steedie"}
         message={"press [t] to type"}
-        color={"#ae5dd9"}
+        color={"#ac75eb"}
         typing={false}
       />
     </div>
   );
 }
+
 // #endregion
 
 // #region [LEADERBOARD]
@@ -216,6 +238,17 @@ function Energy(props: { energy: number }) {
 
 function App() {
   const [energyLevel, setEnergyLevel] = useState(100);
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
+
+  // GENERATE RANDOM CHAT MESSAGES
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const randomMessage = generateRandomChatMessage();
+      setChatMessages((prevMessages) => [...prevMessages, randomMessage]);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   // RANDOM ENERGY LEVEL
   useEffect(() => {
@@ -228,8 +261,8 @@ function App() {
 
   return (
     <>
-      <MsgBox messages={chatTestData1} />
-      <LdrBoard scores={scoreTestData1} />
+      <MsgBox messages={chatMessages} />
+      <LdrBoard scores={scoreTestData2} />
       <Energy energy={energyLevel} />
     </>
   );

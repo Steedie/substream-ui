@@ -7,6 +7,24 @@
     margin-left: 30px;
     cursor: default;
   }
+
+  .chat-inner-box {
+    height: 150px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column-reverse;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .chat-inner-box::-webkit-scrollbar {
+    display: none; /*Safari and Opera */
+  }
+
+  .chat-inner-box {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
   
   .chat-message-container {
     display: flex;
@@ -71,9 +89,54 @@
   .older-messages{
     color: rgb(240, 240, 240);
     margin-bottom: 10px;
+    transform: translateY(40px);
   }
 
   .older-messages-number{
     font-weight: bold;
     margin-right: 6px;
+  }
+
+  .slide-in {
+    animation: slideIn 0.1s ease-in-out;
+  }
+
+  .slide-out {
+    animation: slideOut 0.1s ease-in-out;
+    opacity: 0;
+  }
+
+  .fade-slide-in {
+    animation: fadeSlideIn 0.3s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(48px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideOut {
+    from {
+      transform: translateY(48px);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateX(-100px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }

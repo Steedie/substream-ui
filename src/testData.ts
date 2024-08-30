@@ -1,75 +1,95 @@
 import { ChatMessage, Score } from "./interfaces";
 
-const colors = [
-    "#c43a2d",
-    "#d9bf1a",
-    "#4cbd39",
-    "#1a8cd9",
-    "#d91a8c",
-    "#1ad9b1",
-    "#ae5dd9",
-    "#d9b11a",
-]
+const loremipsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
 
-export const chatTestData1: ChatMessage[] = [
-{
-    user: "damor",
-    message: "this is an older message and can't be seen here",
-    color: colors[0]
-},
-{
-    user: "damor",
-    message: "Lorem ipsum dolor sit amet.",
-    color: colors[0]
-},
-{
-    user: "farms",
-    message: "consectetur adipiscing elit. Sed do?",
-    color: colors[1]
-},
+const users = [
 {
     user: "steedie",
-    message: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    color: colors[6]
-},
-{
-    user: "opnpc",
-    message: "Vasa tua destruam",
-    color: colors[2]
-},
-]
-
-export const scoreTestData1: Score[] = [
-{
-    user: "steedie",
-    score: 3,
-    color: colors[6],
+    color: "#ac75eb",
+    score: 10,
     isMe: true
 },
 {
+    user: "5p0rt5BEArD",
+    color: "#c43a2d",
+    score: 124
+},
+{
+    user: "opnpc",
+    color: "#d9bf1a",
+    score: 740
+},
+{
     user: "damor",
-    score: 10,
-    color: colors[0]
-},
-{
-    user: "jeff",
-    score: 10,
-    color: colors[3]
-},
-{
-    user: "damor",
-    score: 520,
-    color: colors[0]
-},
-{
-    user: "hypnoshock",
-    score: 1042,
-    color: colors[5]
+    color: "#eb9d0c",
+    score: 324
 },
 {
     user: "farms",
-    score: 22,
-    color: colors[1]
+    color: "#41de21",
+    score: 680
+},
+{
+    user: "hypnoshock",
+    color: "#d44c82",
+    score: 48
+},
+{
+    user: "JackBurfy",
+    color: "#1ad9b1",
+    score: 234
+},
+{
+    user: "Sarang",
+    color: "#ae5dd9",
+    score: 524
+},
+{
+    user: "speedyThing",
+    color: "#dbcc3d",
+    score: 402
+},
+{
+    user: "td00gg",
+    color: "#1ad9d1",
+    score: 68
+},
+{
+    user: "TheBigLewDawg",
+    color: "#d65720",
+    score: 750
+},
+{
+    user: "Jonny",
+    color: "#b547d6",
+    score: 300
+},
+{
+    user: "locket",
+    color: "#d9d91a",
+    score: 410
+},
+{
+    user: "Whips",
+    color: "#85e32d",
+    score: 650
+},
+]
+
+function getRandomSnippet(text: string, minLength: number, maxLength: number): string {
+    const start = Math.floor(Math.random() * (text.length - minLength));
+    const length = Math.floor(Math.random() * (maxLength - minLength + 1)) + minLength;
+    return text.substring(start, start + length);
+  }
+
+export function generateRandomChatMessage(): ChatMessage {
+    const user = users[Math.floor(Math.random() * users.length)];
+    const randomMessage = getRandomSnippet(loremipsum, 4, 64);
+    return {
+        user: user.user,
+        message: randomMessage,
+        color: user.color
+    }
 }
 
-]
+export const scoreTestData2: Score[] = users;
