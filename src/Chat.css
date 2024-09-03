@@ -15,6 +15,11 @@
     flex-direction: column-reverse;
     overflow-y: auto;
     position: relative;
+    transition: height 0.3s ease;
+}
+
+  .chat-inner-box:hover {
+    height: 300px;
   }
 
   .chat-inner-box::-webkit-scrollbar {
