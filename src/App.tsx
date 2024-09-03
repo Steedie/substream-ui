@@ -1,5 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { scoreTestData2, generateRandomChatMessage } from "./testData";
+import {
+  scoreTestData2,
+  generateRandomChatMessage,
+  updateRandomUserScore,
+} from "./testData";
 import { ChatMessage, Score } from "./interfaces";
 import "./App.css";
 import "./Chat.css";
@@ -255,6 +259,15 @@ function App() {
     const intervalId = setInterval(() => {
       setEnergyLevel(Math.random() * 100);
     }, 2500);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // RANDOM LEADERBOARD SCORES
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      updateRandomUserScore("steedie");
+    }, 1000);
 
     return () => clearInterval(intervalId);
   }, []);
