@@ -7,6 +7,13 @@
     margin-right: 30px;
 }
 
+.leaderboard-entry-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+  }
+
 .leaderboard-entry {
     display: flex;
     justify-content: flex-end;
@@ -20,6 +27,11 @@
     margin-bottom: 6px;
     margin-left: auto;
     max-width: 100%;
+}
+
+.leaderboard-entry svg {
+    position: absolute;
+    right: -30px;
 }
 
 .leaderboard-entry-leader {

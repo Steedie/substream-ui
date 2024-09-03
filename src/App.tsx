@@ -120,10 +120,10 @@ function MsgBox(props: { messages: ChatMessage[] }) {
 function LdrBoard(props: { scores: Score[] }) {
   const sortedScores = props.scores.sort((a, b) => b.score - a.score);
   const topThree = sortedScores.slice(0, 3);
-  const isMeInTopThree = topThree.some((score) => score.isMe);
+  const isMeInTop = topThree.some((score) => score.isMe);
   let leaders;
 
-  if (isMeInTopThree) {
+  if (isMeInTop) {
     leaders = sortedScores.slice(0, 4);
   } else {
     const meScore = sortedScores.find((score) => score.isMe);
@@ -164,17 +164,85 @@ function LdrEntry(props: {
       : "leaderboard-entry";
 
   return (
-    <div className={entryClass}>
-      <span className="leaderboard-user">{props.user}</span>
-      <span className="leaderboard-score">{props.score}</span>
-      <span
-        className="score-circle shadow-circle"
-        style={{ backgroundColor: shadowColor }}
-      />
-      <span className="score-circle" style={{ backgroundColor: props.color }}>
-        {props.position}
-      </span>
+    <div className="leaderboard-entry-row">
+      <div className={entryClass}>
+        <span className="leaderboard-user">{props.user}</span>
+        <span className="leaderboard-score">{props.score}</span>
+        <span
+          className="score-circle shadow-circle"
+          style={{ backgroundColor: shadowColor }}
+        />
+        <span className="score-circle" style={{ backgroundColor: props.color }}>
+          {props.position}
+        </span>
+        {/*calculateSvg(false, props.position === 1)*/}
+      </div>
     </div>
+  );
+}
+
+function calculateSvg(isMeInTop: boolean, isFirst: boolean): JSX.Element {
+  if (isFirst) {
+    return crownSvg();
+  } else {
+    return circleSvg();
+  }
+}
+
+function circleSvg() {
+  return (
+    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+      <circle
+        cx="10"
+        cy="10"
+        r="4"
+        stroke="rgb(92, 144, 255)"
+        stroke-width="1"
+        fill="#00000080"
+      />
+    </svg>
+  );
+}
+
+function crownSvg() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 64 64"
+    >
+      <path
+        d="M2 22l10 10 10-10 10 10 10-10 10 10 10-10v32H2V22z"
+        fill="#FFD700"
+        stroke="#DAA520"
+        strokeWidth="2"
+      />
+      <circle
+        cx="12"
+        cy="12"
+        r="4"
+        fill="#FFD700"
+        stroke="#DAA520"
+        strokeWidth="2"
+      />
+      <circle
+        cx="32"
+        cy="12"
+        r="4"
+        fill="#FFD700"
+        stroke="#DAA520"
+        strokeWidth="2"
+      />
+      <circle
+        cx="52"
+        cy="12"
+        r="4"
+        fill="#FFD700"
+        stroke="#DAA520"
+        strokeWidth="2"
+      />
+    </svg>
   );
 }
 
