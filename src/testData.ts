@@ -76,7 +76,7 @@ const users = [
     },
 ]
 
-export function updateRandomUserScore(bias: string): void {
+export function updateRandomUserScore(bias: string | null): void {
     users.forEach((user)=> {
         const action = Math.floor(Math.random() * 4);
 
