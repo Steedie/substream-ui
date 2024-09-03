@@ -181,70 +181,70 @@ function LdrEntry(props: {
   );
 }
 
-function calculateSvg(isMeInTop: boolean, isFirst: boolean): JSX.Element {
-  if (isFirst) {
-    return crownSvg();
-  } else {
-    return circleSvg();
-  }
-}
+// function calculateSvg(isMeInTop: boolean, isFirst: boolean): JSX.Element {
+//   if (isFirst) {
+//     return crownSvg();
+//   } else {
+//     return circleSvg();
+//   }
+// }
 
-function circleSvg() {
-  return (
-    <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-      <circle
-        cx="10"
-        cy="10"
-        r="4"
-        stroke="rgb(92, 144, 255)"
-        stroke-width="1"
-        fill="#00000080"
-      />
-    </svg>
-  );
-}
+// function circleSvg() {
+//   return (
+//     <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+//       <circle
+//         cx="10"
+//         cy="10"
+//         r="4"
+//         stroke="rgb(92, 144, 255)"
+//         stroke-width="1"
+//         fill="#00000080"
+//       />
+//     </svg>
+//   );
+// }
 
-function crownSvg() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-    >
-      <path
-        d="M2 22l10 10 10-10 10 10 10-10 10 10 10-10v32H2V22z"
-        fill="#FFD700"
-        stroke="#DAA520"
-        strokeWidth="2"
-      />
-      <circle
-        cx="12"
-        cy="12"
-        r="4"
-        fill="#FFD700"
-        stroke="#DAA520"
-        strokeWidth="2"
-      />
-      <circle
-        cx="32"
-        cy="12"
-        r="4"
-        fill="#FFD700"
-        stroke="#DAA520"
-        strokeWidth="2"
-      />
-      <circle
-        cx="52"
-        cy="12"
-        r="4"
-        fill="#FFD700"
-        stroke="#DAA520"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
+// function crownSvg() {
+//   return (
+//     <svg
+//       width="20"
+//       height="20"
+//       xmlns="http://www.w3.org/2000/svg"
+//       viewBox="0 0 64 64"
+//     >
+//       <path
+//         d="M2 22l10 10 10-10 10 10 10-10 10 10 10-10v32H2V22z"
+//         fill="#FFD700"
+//         stroke="#DAA520"
+//         strokeWidth="2"
+//       />
+//       <circle
+//         cx="12"
+//         cy="12"
+//         r="4"
+//         fill="#FFD700"
+//         stroke="#DAA520"
+//         strokeWidth="2"
+//       />
+//       <circle
+//         cx="32"
+//         cy="12"
+//         r="4"
+//         fill="#FFD700"
+//         stroke="#DAA520"
+//         strokeWidth="2"
+//       />
+//       <circle
+//         cx="52"
+//         cy="12"
+//         r="4"
+//         fill="#FFD700"
+//         stroke="#DAA520"
+//         strokeWidth="2"
+//       />
+//     </svg>
+//   );
+// }
 
 function shadeColor(color: string, percent: number) {
   let R = parseInt(color.substring(1, 3), 16);
