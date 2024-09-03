@@ -80,3 +80,14 @@
     font-weight: bold;
     text-align: center;
 }
+
+@media (max-width: 880px) {
+    .leaderboard-entry {
+        padding: 8px 14px;
+        background: linear-gradient(180deg, #0000002f, rgba(7, 13, 27, 0.2));
+        border-radius: 42px;
+        margin-bottom: 4px;
+        margin-left: auto;
+        max-width: 100%;
+    }
+}

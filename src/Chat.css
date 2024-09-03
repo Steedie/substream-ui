@@ -145,3 +145,14 @@
       transform: translateX(0);
     }
   }
+
+  @media (max-width: 880px) {
+    .chat-message {
+      max-width: 16ch;
+    }
+    .chat-message-container {
+      padding: 8px 14px;
+      background: linear-gradient(180deg, #0000002f, rgba(7, 13, 27, 0.2));
+      margin-bottom: 4px;
+    }
+}
