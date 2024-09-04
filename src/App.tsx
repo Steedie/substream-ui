@@ -119,14 +119,46 @@ function MsgBox(props: { messages: ChatMessage[] }) {
 // #region [LEADERBOARD]
 function LdrBoard(props: { scores: Score[] }) {
   const sortedScores = props.scores.sort((a, b) => b.score - a.score);
+
   const topThree = sortedScores.slice(0, 3);
   const isMeInTop = topThree.some((score) => score.isMe);
-  let leaders;
+
+  // Iterate over all scores to determine the animation class
+  sortedScores.forEach((score, index) => {
+    if (score.lastPosition === undefined || score.lastPosition === null) {
+      score.lastPosition = -1;
+    }
+
+    if (index > score.lastPosition && index < 4) {
+      score.animClass = "swap-to-up";
+    } else if (index < score.lastPosition && index < 4) {
+      if (score.isMe === true && index == 3) {
+        score.animClass = "";
+      } else {
+        score.animClass =
+          index == (isMeInTop ? 3 : 2) ? "swap-to-left" : "swap-to-down";
+      }
+    } else {
+      score.animClass = "";
+    }
+
+    // Update lastPosition to current index
+    score.lastPosition = index;
+  });
+
+  let leaders: Score[];
+  let meScoreIndex = -1;
 
   if (isMeInTop) {
     leaders = sortedScores.slice(0, 4);
   } else {
-    const meScore = sortedScores.find((score) => score.isMe);
+    const meScore = sortedScores.find((score, index) => {
+      if (score.isMe) {
+        meScoreIndex = index;
+        return true;
+      }
+      return false;
+    });
     if (meScore) {
       leaders = [...topThree, meScore];
     } else {
@@ -134,117 +166,87 @@ function LdrBoard(props: { scores: Score[] }) {
     }
   }
 
+  const scoresBetween = meScoreIndex > 3 ? meScoreIndex - 3 : 0;
+
   return (
     <div className="leaderboard">
       {leaders.map((leader, index) => (
         <LdrEntry
-          key={index}
-          user={leader.user}
-          score={leader.score}
-          color={leader.color}
+          key={index + "-" + leader.user + "-" + leader.score}
+          userScore={leader}
           position={
             sortedScores.findIndex((score) => score.user === leader.user) + 1
           }
+          scoresBetween={!isMeInTop && index === 3 ? scoresBetween : 0}
         />
       ))}
     </div>
   );
 }
 
-function LdrEntry(props: {
-  user: string;
-  score: number;
-  color: string;
-  position: number;
-}) {
-  const shadowColor = shadeColor(props.color, -25);
-  const entryClass =
-    props.position === 1
-      ? "leaderboard-entry leaderboard-entry-leader"
-      : "leaderboard-entry";
-
+function LeaderboardGap({ count }: { count: number | undefined }) {
+  const defaultCount = 0;
   return (
-    <div className="leaderboard-entry-row">
-      <div className={entryClass}>
-        <span className="leaderboard-user">{props.user}</span>
-        <span className="leaderboard-score">{props.score}</span>
-        <span
-          className="score-circle shadow-circle"
-          style={{ backgroundColor: shadowColor }}
-        />
-        <span className="score-circle" style={{ backgroundColor: props.color }}>
-          {props.position}
-        </span>
-        {/*calculateSvg(false, props.position === 1)*/}
-      </div>
+    <div className="leaderboard-gap">
+      {Array.from({ length: count || defaultCount }, (_, i) => (
+        <svg
+          key={i}
+          width="10"
+          height="10"
+          viewBox="0 0 10 10"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="5"
+            cy="5"
+            r="4"
+            fill="#00000080"
+            stroke="rgb(92, 144, 255)"
+            strokeWidth={1}
+          />
+        </svg>
+      ))}
     </div>
   );
 }
 
-// function calculateSvg(isMeInTop: boolean, isFirst: boolean): JSX.Element {
-//   if (isFirst) {
-//     return crownSvg();
-//   } else {
-//     return circleSvg();
-//   }
-// }
+function LdrEntry(props: {
+  userScore: Score;
+  position: number;
+  scoresBetween?: number;
+}) {
+  const shadowColor = shadeColor(props.userScore.color, -25);
+  let entryClass =
+    props.position === 1
+      ? "leaderboard-entry leaderboard-entry-leader"
+      : "leaderboard-entry";
 
-// function circleSvg() {
-//   return (
-//     <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-//       <circle
-//         cx="10"
-//         cy="10"
-//         r="4"
-//         stroke="rgb(92, 144, 255)"
-//         stroke-width="1"
-//         fill="#00000080"
-//       />
-//     </svg>
-//   );
-// }
+  entryClass += ` ${props.userScore.animClass}`;
 
-// function crownSvg() {
-//   return (
-//     <svg
-//       width="20"
-//       height="20"
-//       xmlns="http://www.w3.org/2000/svg"
-//       viewBox="0 0 64 64"
-//     >
-//       <path
-//         d="M2 22l10 10 10-10 10 10 10-10 10 10 10-10v32H2V22z"
-//         fill="#FFD700"
-//         stroke="#DAA520"
-//         strokeWidth="2"
-//       />
-//       <circle
-//         cx="12"
-//         cy="12"
-//         r="4"
-//         fill="#FFD700"
-//         stroke="#DAA520"
-//         strokeWidth="2"
-//       />
-//       <circle
-//         cx="32"
-//         cy="12"
-//         r="4"
-//         fill="#FFD700"
-//         stroke="#DAA520"
-//         strokeWidth="2"
-//       />
-//       <circle
-//         cx="52"
-//         cy="12"
-//         r="4"
-//         fill="#FFD700"
-//         stroke="#DAA520"
-//         strokeWidth="2"
-//       />
-//     </svg>
-//   );
-// }
+  const classN = "leaderboard-entry-row " + (props.position - 1).toString();
+
+  return (
+    <>
+      <LeaderboardGap count={props.scoresBetween} />
+      <div className={classN}>
+        <div className={entryClass}>
+          <span className="leaderboard-user">{props.userScore.user}</span>
+          <span className="leaderboard-score">{props.userScore.score}</span>
+          <span
+            className="score-circle shadow-circle"
+            style={{ backgroundColor: shadowColor }}
+          />
+          <span
+            className="score-circle"
+            style={{ backgroundColor: props.userScore.color }}
+          >
+            {props.position}
+          </span>
+        </div>
+      </div>
+    </>
+  );
+}
 
 function shadeColor(color: string, percent: number) {
   let R = parseInt(color.substring(1, 3), 16);
@@ -334,8 +336,8 @@ function App() {
   // RANDOM LEADERBOARD SCORES
   useEffect(() => {
     const intervalId = setInterval(() => {
-      updateRandomUserScore("steedie");
-    }, 1000);
+      updateRandomUserScore("");
+    }, 150);
 
     return () => clearInterval(intervalId);
   }, []);

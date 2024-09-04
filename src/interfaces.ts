@@ -8,5 +8,7 @@ export interface Score {
     user: string;
     score: number;
     color: string;
+    animClass?: string;
     isMe?: boolean;
+    lastPosition?: number;
 }

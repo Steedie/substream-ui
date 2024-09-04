@@ -76,7 +76,7 @@ const users = [
     },
 ]
 
-export function updateRandomUserScore(bias: string | null): void {
+export function updateUserScores(bias: string | null): void {
     users.forEach((user)=> {
         const action = Math.floor(Math.random() * 4);
 
@@ -84,6 +84,12 @@ export function updateRandomUserScore(bias: string | null): void {
             user.score += user.user === bias ? 2 : 1;
         } 
     })
+}
+
+export function updateRandomUserScore(bias: string | null): void {
+    // get random user
+    const user = users[Math.floor(Math.random() * users.length)];
+    user.score += user.user === bias ? 2 : 1;
 }
 
 function getRandomSnippet(text: string, minLength: number, maxLength: number): string {
@@ -94,7 +100,7 @@ function getRandomSnippet(text: string, minLength: number, maxLength: number): s
 
 export function generateRandomChatMessage(): ChatMessage {
     const user = users[Math.floor(Math.random() * users.length)];
-    const randomMessage = getRandomSnippet(loremipsum, 4, 64);
+    const randomMessage = getRandomSnippet(loremipsum, 2, 32);
     return {
         user: user.user,
         message: randomMessage,

@@ -5,6 +5,7 @@
     text-align: right;
     margin-bottom: 30px;
     margin-right: 30px;
+    overflow: hidden;
 }
 
 .leaderboard-entry-row {
@@ -27,35 +28,12 @@
     margin-bottom: 6px;
     margin-left: auto;
     max-width: 100%;
+    transition: border-color 0.5s ease;
 }
 
-.leaderboard-entry svg {
-    position: absolute;
-    right: -30px;
-}
-
-.leaderboard-entry-leader {
-    border: 2px solid rgb(92, 144, 255);
-    border-radius: 42px;
-    animation: gold-gradient-border 2s infinite;
-}
-
-@keyframes gold-gradient-border {
-    0% {
-        border-color: rgb(255, 215, 0);
-    }
-    25% {
-        border-color: rgb(255, 206, 44);
-    }
-    50% {
-        border-color: rgb(255, 230, 0);
-    }
-    75% {
-        border-color: rgb(255, 182, 23);
-    }
-    100% {
-        border-color: rgb(255, 215, 0);
-    }
+.leaderboard-gap svg {
+    margin-bottom: 3px;
+    margin-right: 6px;
 }
 
 .leaderboard-user {
@@ -102,4 +80,49 @@
         margin-left: auto;
         max-width: 100%;
     }
+    .leaderboard-gap svg {
+        margin-bottom: 2px;
+    }
 }
+
+.swap-to-up {
+    animation: swapToUp 0.3s ease-in-out;
+  }
+  
+  @keyframes swapToUp {
+    from {
+      transform: translateY(-50px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+
+.swap-to-left {
+    animation: swapToLeft 0.2s ease-in-out;
+    opacity: 1;
+  }
+  
+  @keyframes swapToLeft {
+    from {
+      transform: translateX(50px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+.swap-to-down {
+    animation: swapToDown 0.3s ease-in-out;
+  }
+  
+  @keyframes swapToDown {
+    from {
+      transform: translateY(50px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
