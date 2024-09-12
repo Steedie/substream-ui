@@ -298,15 +298,51 @@ function Energy(props: { energy: number }) {
     });
   }, []);
 
+  const energyColor = useMemo(
+    () => getEnergyColor(props.energy),
+    [props.energy]
+  );
+
   return (
     <div className="energy-bar">
-      <div className="energy-fill" style={{ width: `${props.energy}%` }}>
+      <div
+        className="energy-fill"
+        style={{ width: `${props.energy}%`, backgroundColor: energyColor }}
+      >
         <div className="energy-reflection"></div>
         {bubbles}
       </div>
     </div>
   );
 }
+
+const lerp = (start: number, end: number, t: number): number => {
+  return start + t * (end - start);
+};
+
+const getEnergyColor = (energy: number): string => {
+  const green = { r: 46, g: 194, b: 46 };
+  const yellow = { r: 199, g: 201, b: 50 };
+  const red = { r: 255, g: 64, b: 64 };
+
+  let r, g, b;
+
+  if (energy > 50) {
+    // Interpolate between yellow and green
+    const t = (energy - 50) / 50;
+    r = lerp(yellow.r, green.r, t);
+    g = lerp(yellow.g, green.g, t);
+    b = lerp(yellow.b, green.b, t);
+  } else {
+    // Interpolate between red and yellow
+    const t = energy / 50;
+    r = lerp(red.r, yellow.r, t);
+    g = lerp(red.g, yellow.g, t);
+    b = lerp(red.b, yellow.b, t);
+  }
+
+  return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+};
 
 // #endregion
 
@@ -325,13 +361,25 @@ function App() {
   }, []);
 
   // RANDOM ENERGY LEVEL
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     setEnergyLevel(Math.random() * 100);
+  //   }, 2500);
+
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
+  // RANDOM ENERGY LEVEL
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setEnergyLevel(Math.random() * 100);
-    }, 2500);
+      setEnergyLevel(energyLevel - 10);
+      if (energyLevel <= 0) {
+        setEnergyLevel(100);
+      }
+    }, 250);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [energyLevel]);
 
   // RANDOM LEADERBOARD SCORES
   useEffect(() => {
